@@ -416,6 +416,87 @@
              <!-- *** END MODIFIED SECTION D *** -->
         </section>
 
+        <!-- *** NEW SECTION VI: Federation & Member Insights *** -->
+        <section>
+            <h2>VI. Federation & Member Insights</h2>
+
+            <h3>A. Participation Snapshot (Approx. Counts from Provided Data)</h3>
+             <div class="grid-container">
+                 <div class="card">
+                     <h4>Raw Events (SBD Nats, Luzon Classic, Dewfoam V/M)</h4>
+                     <p>Total Unique Lifters (Est.): ~350+</p>
+                     <p>Men's Open Participants (Est.): ~100+</p>
+                     <p>Women's Open Participants (Est.): ~40+</p>
+                     <p>Junior/Sub-Jr Participants (M+F Est.): ~100+</p>
+                 </div>
+                 <div class="card">
+                     <h4>Equipped Events (Luzon Eqp)</h4>
+                     <p>Total Unique Lifters (Est.): ~150+</p>
+                     <p>College Participants (M+F Est.): ~60+</p>
+                     <p>Novice Participants (M+F Est.): ~100+</p>
+                 </div>
+                 <div class="card">
+                     <h4>Bench Only Events (Nat Champs)</h4>
+                     <p>Total Unique Lifters (Est.): ~100+</p>
+                 </div>
+                  <div class="card">
+                     <h4>Most Active Teams (Across Events)</h4>
+                     <p>High participation often seen from: Zest Power Gym, MCA, Hybrid Strength, Mayhem Powerlifting, KILOS, Avanti, Manuel Barbell Club, Individual Lifters.</p>
+                 </div>
+             </div>
+             <p><em>Note: Counts are approximate estimations based on listed participants in the provided files and may include duplicates if lifters competed in multiple events/categories.</em></p>
+
+             <h3>B. Performance Benchmarks (Approx. Median - Raw Open Categories)</h3>
+             <p>These median values (middle performance) from SBD Nationals & Luzon Classic give a general idea of competitive standards in Raw Open categories. <em>(Median is less affected by extreme outliers than average).</em></p>
+             <div class="table-responsive-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Category</th><th>Median Total (kg)</th><th>Median IPF Points</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Women's Open 47kg</td><td>~300 kg</td><td>~84 IPF</td></tr>
+                        <tr><td>Women's Open 52kg</td><td>~305 kg</td><td>~79 IPF</td></tr>
+                        <tr><td>Women's Open 57kg</td><td>~340 kg</td><td>~81 IPF</td></tr>
+                        <tr><td>Women's Open 63kg</td><td>~360 kg</td><td>~80 IPF</td></tr>
+                        <tr><td>Men's Open 66kg</td><td>~520 kg</td><td>~80 IPF</td></tr>
+                        <tr><td>Men's Open 74kg</td><td>~570 kg</td><td>~83 IPF</td></tr>
+                        <tr><td>Men's Open 83kg</td><td>~580 kg</td><td>~81 IPF</td></tr>
+                        <tr><td>Men's Open 93kg</td><td>~620 kg</td><td>~81 IPF</td></tr>
+                    </tbody>
+                </table>
+             </div>
+             <p><em>Lifters aiming for national contention often exceed these median values significantly.</em></p>
+
+
+            <h3>C. Youth Pipeline Strength (Raw Avg. IPF Comparison)</h3>
+             <div class="chart-container" style="max-width: 700px; margin: 20px auto;">
+                 <canvas id="youthPipelineChart"></canvas>
+             </div>
+             <p><em>Observation: Strong performance in Junior categories (often matching or exceeding Open averages in these datasets), suggesting a healthy pipeline, especially for Men. Developmental/Sub-Jr averages are understandably lower but show progression.</em></p>
+
+             <h3>D. Raw Lift Ratio Insights (Based on Section V Averages)</h3>
+             <dl>
+                 <dt>Bench Press vs. Squat:</dt>
+                 <dd>Men's BP is typically around 64% of their Squat (23.5 / 36.5).</dd>
+                 <dd>Women's BP is typically around 59% of their Squat (21.5 / 36.0).</dd>
+                 <dt>Deadlift vs. Squat:</dt>
+                 <dd>Men's DL is typically around 110% of their Squat (40.0 / 36.5).</dd>
+                 <dd>Women's DL is typically around 118% of their Squat (42.5 / 36.0).</dd>
+             </dl>
+             <p><em>Observation: Deadlifts are proportionally stronger compared to the squat for women than for men, on average, in these datasets. Bench press makes up a slightly smaller percentage of the total for women.</em></p>
+
+             <h3>E. Noteworthy Bodyweight Multiples (Examples from Data)</h3>
+             <ul>
+                 <li>Aaron Grant Embuscado (65.5kg BW): Deadlifted 290kg (**~4.4x Bodyweight**)</li>
+                 <li>Veronica Ompod (45.4kg BW): Deadlifted 150kg (**~3.3x Bodyweight**)</li>
+                 <li>Millenus Eiman E Ocubillo (92.66kg BW): Deadlifted 300kg (**~3.2x Bodyweight**)</li>
+                 <li>Mark Jason F. Galauran (92.4kg BW): Squatted 285.5kg (**~3.1x Bodyweight**)</li>
+            </ul>
+            <p><em>These highlight exceptional strength relative to lifter size.</em></p>
+
+        </section>
+        <!-- *** END NEW SECTION VI *** -->
+
         <div class="disclaimer">
             <strong>Disclaimer:</strong> This dashboard is generated based solely on the provided CSV data. Calculations like averages are estimates influenced by the number and specific lifters recorded in each file. Potential inconsistencies between files may exist. Record claims depend on remarks within the source data.
         </div>
@@ -425,6 +506,62 @@
     <script>
         // Chart Data & Initialization
         document.addEventListener('DOMContentLoaded', () => {
+
+            // NEW Chart: Youth Pipeline Comparison
+            const youthPipelineCtx = document.getElementById('youthPipelineChart').getContext('2d');
+            new Chart(youthPipelineCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Men Raw Avg IPF', 'Women Raw Avg IPF'],
+                    datasets: [
+                         {
+                            label: 'Open',
+                            data: [76.5, 76.0], // From Section V Analysis
+                            backgroundColor: '#007bff', // Blue
+                            borderColor: '#0056b3',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Junior',
+                             data: [79.0, 78.5], // From Section V Analysis (using SBD/Luzon as primary)
+                            backgroundColor: '#28a745', // Green
+                            borderColor: '#1e7e34',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Sub-Junior',
+                            data: [68.0, 74.0], // From Section V Analysis (using SBD/Luzon as primary, Women N small)
+                            backgroundColor: '#ffc107', // Yellow
+                            borderColor: '#d39e00',
+                            borderWidth: 1
+                        },
+                         {
+                            label: 'Developmental',
+                            data: [38.0, 55.0], // Approx. Avg from available Dev data (F skewed by few high scores)
+                            backgroundColor: '#fd7e14', // Orange
+                            borderColor: '#c66510',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                 options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Average IPF Points'} } },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Youth Pipeline: Average Raw IPF Points by Category'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                     indexAxis: 'x', // Keep as vertical bars for category comparison
+                     barPercentage: 0.8, // Adjust bar width if needed
+                     categoryPercentage: 0.7 // Adjust spacing between groups
+                }
+            });
 
             // Raw IPF Distribution
             const rawIpfCtx = document.getElementById('rawIpfDistributionChart').getContext('2d');
