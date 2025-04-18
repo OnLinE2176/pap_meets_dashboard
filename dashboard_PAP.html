@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powerlifting Competitions Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: #0056b3; /* Dark blue */
+            border-bottom: 2px solid #007bff; /* Lighter blue */
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        /* Sub-headings within sections */
+        h3 {
+             color: #0056b3;
+             margin-top: 25px; /* Space above sub-headings */
+             margin-bottom: 10px;
+             border-bottom: 1px dashed #ccc;
+             padding-bottom: 3px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        section {
+            margin-bottom: 50px; /* *** INCREASED SPACE BETWEEN SECTIONS *** */
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #eef;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #0056b3;
+        }
+        .card h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .card strong {
+            color: #d9534f; /* Reddish emphasis */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 15px; /* Added space below tables */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px; /* Fixed height */
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 30px; /* Increased space below charts */
+        }
+         .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px; /* Spacing between charts */
+            align-items: start;
+         }
+        dl dt {
+            font-weight: bold;
+            color: #0056b3;
+            margin-top: 5px;
+        }
+        dl dd {
+            margin-left: 20px;
+            margin-bottom: 5px;
+        }
+        .disclaimer {
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px dashed #ccc;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container, .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-container {
+                 height: 300px;
+            }
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.4em; }
+            h3 { font-size: 1.2em; }
+            th, td { font-size: 0.85em; }
+            section { margin-bottom: 40px; } /* Adjust section spacing for mobile */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Powerlifting Competitions Dashboard</h1>
+        <p>Summary and analysis of results from Dewfoam Visayas, Dewfoam Mindanao, SBD PH Nationals 2025 (Raw), Luzon Equipped 2025, Luzon Classic 2024 (Raw), National Classic/Equipped Bench Press 2024, and National Interschool & Novice 2025.</p>
+
+        <!-- Section I: Overall Top Performers -->
+        <section>
+            <h2>I. Overall Top Performers (Across Events)</h2>
+             <div class="grid-container">
+                <div class="card">
+                    <h4>Highest Male Raw IPF</h4>
+                    <p><strong>104.16</strong> - Aaron Grant Embuscado (Zest Power Gym, 66kg, Dewfoam Visayas)</p>
+                    <p><em>Notable: 101.51 - Mark Jason F. Galauran (MCA, 93kg, SBD Nats)</em></p>
+                 </div>
+                 <div class="card">
+                    <h4>Highest Female Raw IPF</h4>
+                    <p><strong>99.06</strong> - Veronica Ompod (Zest Power Gym, 47kg, SBD Nats)</p>
+                    <p><em>Notable: 97.31 - Joyce Gail T. Reboton (KILOS, 76kg, SBD Nats)</em></p>
+                </div>
+                 <div class="card">
+                    <h4>Highest Male Raw Total</h4>
+                    <p><strong>773.5 kg</strong> - Mark Jason F. Galauran (MCA, 93kg, SBD Nats)</p>
+                 </div>
+                 <div class="card">
+                    <h4>Highest Female Raw Total</h4>
+                    <p><strong>492.5 kg</strong> - Joyce Gail T. Reboton (KILOS, 76kg, SBD Nats)</p>
+                 </div>
+                 <div class="card">
+                    <h4>Highest Male Equipped IPF</h4>
+                    <p><strong>89.25</strong> - Mark Jason F. Galauran (Zest Power Gym, 93kg, Luzon Eqp)</p>
+                 </div>
+                 <div class="card">
+                    <h4>Highest Female Equipped IPF</h4>
+                    <p><strong>96.26</strong> - Ompod Veronica M. (Zest Power Gym, 47kg, Luzon Eqp)</p>
+                 </div>
+                  <div class="card">
+                    <h4>Highest Male Equipped Total</h4>
+                    <p><strong>820 kg</strong> - Mark Jason F. Galauran (Zest Power Gym, 93kg, Luzon Eqp)</p>
+                 </div>
+                  <div class="card">
+                    <h4>Highest Female Equipped Total</h4>
+                    <p><strong>432.5 kg</strong> - Ompod Veronica M. (Zest Power Gym, 47kg, Luzon Eqp)</p>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Section II: Team Performance -->
+        <section>
+            <h2>II. Team Performance Highlights</h2>
+            <h3>Most Consistently Strong Teams</h3>
+            <ul>
+                <li><strong>Zest Power Gym:</strong> Broad dominance across categories/events. Won SBD Nats Overall.</li>
+                <li><strong>MCA:</strong> Strong in Junior/Open, notable presence.</li>
+                <li><strong>Hybrid Strength:</strong> Consistent placing in Novice, Junior, Master.</li>
+                <li><strong>KILOS Powerlifting:</strong> Strong Women's Open/Novice performance.</li>
+                <li><strong>Avanti:</strong> Top Men's Open team performance (SBD Nats).</li>
+                <li><strong>Giant Training Systems, Manuel Barbell Club, R-Rated Powerlifting, Mayhem Powerlifting:</strong> Also frequent high performers in specific events/categories.</li>
+            </ul>
+
+            <h3>SBD PH Nationals 2025 - Best Overall Team</h3>
+             <table>
+                <thead>
+                    <tr><th>Place</th><th>Team</th><th>Combined Open Points</th><th># Open Lifters (M/W)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1st</td><td>ZEST POWER GYM</td><td>69</td><td>8 (3M, 5W)</td></tr>
+                    <tr><td>2nd</td><td>Avanti</td><td>60</td><td>8 (6M, 2W)</td></tr>
+                    <tr><td>3rd</td><td>MCA</td><td>36</td><td>5 (5M, 0W)</td></tr>
+                    <tr><td>4th</td><td>KILOS Powerlifting</td><td>35</td><td>5 (2M, 3W)</td></tr>
+                    <tr><td>5th</td><td>BAGUIO BARBELL</td><td>30</td><td>6 (3M, 3W)</td></tr>
+                </tbody>
+             </table>
+        </section>
+
+        <!-- Section III: Category Highlights (Selected Events) -->
+        <section>
+            <h2>III. Key Category Best Lifters (Selected Events)</h2>
+
+            <h3>A. SBD PH Nationals 2025 (Raw)</h3>
+            <table>
+                <thead><tr><th>Category</th><th>Name</th><th>Team</th><th>Total (kg)</th><th>BW (kg)</th><th>IPF Points</th></tr></thead>
+                <tbody>
+                    <tr><td>Men's Open</td><td>Mark Jason F. Galauran</td><td>MCA</td><td>773.5</td><td>92.4</td><td>101.51</td></tr>
+                    <tr><td>Women's Open</td><td>Veronica Ompod</td><td>Zest Power Gym</td><td>345</td><td>45.4</td><td>99.06</td></tr>
+                    <tr><td>Men's Junior</td><td>Mark Jason F. Galauran</td><td>MCA</td><td>773.5</td><td>92.4</td><td>101.51</td></tr>
+                    <tr><td>Women's Junior</td><td>Jessa Mae V. Tabuan</td><td>Zest Power Gym</td><td>353</td><td>50.45</td><td>91.53</td></tr>
+                    <tr><td>Men's Sub-Junior</td><td>Jian Carlos R. Medina</td><td>Southern BadBoys</td><td>585</td><td>81.85</td><td>81.55</td></tr>
+                    <tr><td>Women's Sub-Junior</td><td>Sabina Mae C. Santos</td><td>Zest Power Gym</td><td>406</td><td>75.4</td><td>80.35</td></tr>
+                 </tbody>
+            </table>
+
+            <h3>B. 2025 Luzon Equipped Powerlifting Championships</h3>
+             <table>
+                <thead><tr><th>Category</th><th>Name</th><th>Team</th><th>Total (kg)</th><th>BW (kg)</th><th>IPF Points</th></tr></thead>
+                <tbody>
+                    <tr><td>Men's Open</td><td>Mark Jason F. Galauran</td><td>Zest Power Gym</td><td>820</td><td>92.35</td><td>89.25</td></tr>
+                    <tr><td>Women's Open</td><td>Ompod Veronica M.</td><td>Zest Power Gym</td><td>432.5</td><td>46.05</td><td>96.26</td></tr>
+                    <tr><td>Men's Junior</td><td>Mark Jason F. Galauran</td><td>Zest Power Gym</td><td>820</td><td>92.35</td><td>89.25</td></tr>
+                    <tr><td>Women's Junior</td><td>Arnee Filia B. Soriano</td><td>Unbound Fitness Pangasinan</td><td>329.5</td><td>52</td><td>67.10</td></tr>
+                    <tr><td>Men's Sub-Junior</td><td>Jay Martin V. Mendoza</td><td>MCA</td><td>512.5</td><td>65.9</td><td>68.72</td></tr>
+                    <tr><td>Women's Sub-Junior</td><td>Khieszia Dhanielle Narral</td><td>Cyber Muscle Gym</td><td>250</td><td>43</td><td>58.76</td></tr>
+                 </tbody>
+            </table>
+
+             <h3>C. Dewfoam Visayas (Raw)</h3>
+             <table>
+                <thead><tr><th>Category</th><th>Name</th><th>Team</th><th>Total (kg)</th><th>BW (kg)</th><th>IPF Points</th></tr></thead>
+                <tbody>
+                    <tr><td>Men's Open</td><td>Aaron Grant Embuscado</td><td>Zest Power Gym</td><td>665.5</td><td>65.50</td><td>104.16</td></tr>
+                    <tr><td>Women's Open</td><td>Veronica Ompod</td><td>Zest Power Gym</td><td>311</td><td>45.28</td><td>89.54</td></tr>
+                 </tbody>
+            </table>
+
+            <h3>D. Dewfoam Mindanao (Raw)</h3>
+            <table>
+               <thead><tr><th>Category</th><th>Name</th><th>Team</th><th>Total (kg)</th><th>BW (kg)</th><th>IPF Points</th></tr></thead>
+               <tbody>
+                   <tr><td>Men's Open</td><td>Millenus Eiman E Ocubillo</td><td>Kilo Culture</td><td>700</td><td>92.66</td><td>76.06</td></tr>
+                   <tr><td>Women's Open</td><td>Veronica Tapolgo</td><td>Kilo Culture</td><td>362.5</td><td>57</td><td>69.48</td></tr>
+                </tbody>
+           </table>
+        </section>
+
+        <!-- Section IV: Bench Press Highlights -->
+        <section>
+            <h2>IV. Bench Press Championship Highlights</h2>
+            <div class="grid-container">
+                 <div class="card">
+                    <h4>National Classic Bench (Raw) - Top Performers</h4>
+                    <dl>
+                        <dt>Women's Best Lifter:</dt><dd><strong>81.52 IPF GL</strong> - Jeremy Reign R. Bautista (Zest)</dd>
+                        <dt>Men's Best Lifter:</dt><dd><strong>71.32 IPF GL</strong> - Agapito D. Manaba (Ind.)</dd>
+                    </dl>
+                 </div>
+                 <div class="card">
+                    <h4>National Equipped Bench - Top Performers</h4>
+                    <dl>
+                        <dt>Women's Best Lifter:</dt><dd><strong>68.91 IPF GL</strong> - Jane T. Erasmo (Zest)</dd>
+                        <dt>Men's Best Lifter:</dt><dd><strong>66.24 IPF GL</strong> - Jed Marc V. Millora (Zest)</dd>
+                    </dl>
+                 </div>
+            </div>
+        </section>
+
+         <!-- Section V: Quantitative Analysis -->
+        <section>
+            <h2>V. Quantitative Analysis</h2>
+
+             <h3>A. Average Performance Metrics (Approx.)</h3>
+             <div class="grid-container">
+                <div class="card">
+                    <h4>Raw Lifting</h4>
+                    <p>Avg Male IPF: ~68.0</p>
+                    <p>Avg Female IPF: ~64.5</p>
+                    <p>Avg Male Total: ~505 kg</p>
+                    <p>Avg Female Total: ~295 kg</p>
+                </div>
+                <div class="card">
+                    <h4>Equipped Lifting</h4>
+                    <p>Avg Male IPF: ~61.0</p>
+                    <p>Avg Female IPF: ~52.5</p>
+                    <p>Avg Male Total: ~485 kg</p>
+                    <p>Avg Female Total: ~275 kg</p>
+                </div>
+             </div>
+
+             <h3>B. IPF Points Distribution (Approx. Combined M/F)</h3>
+             <div class="chart-grid">
+                <div class="chart-container">
+                    <h4>Raw IPF Points Distribution</h4>
+                    <canvas id="rawIpfDistributionChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Equipped IPF Points Distribution</h4>
+                    <canvas id="equippedIpfDistributionChart"></canvas>
+                </div>
+             </div>
+
+             <h3>C. Lift Contribution to Total (Avg. Raw %)</h3>
+             <div class="chart-grid">
+                <div class="chart-container">
+                    <h4>Male Avg. Raw Lift Contribution</h4>
+                    <canvas id="maleLiftContributionChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Female Avg. Raw Lift Contribution</h4>
+                    <canvas id="femaleLiftContributionChart"></canvas>
+                </div>
+             </div>
+             <p><em>Observation: Deadlifts contribute the highest percentage to the total for both genders in Raw lifting (M: ~40.0%, F: ~42.5%), followed by Squat (M: ~36.5%, F: ~36.0%), then Bench Press (M: ~23.5%, F: ~21.5%).</em></p>
+
+             <!-- *** MODIFIED SECTION D *** -->
+             <h3>D. Performance Comparisons</h3>
+
+             <h4>Cross-Event Comparison (Avg. Open Raw IPF Points)</h4>
+             <div class="chart-container" style="height: 400px;"> <!-- Increased height slightly for better label separation -->
+                 <canvas id="eventComparisonChart"></canvas>
+             </div>
+             <p><em>Note: Average calculation dependent on number of participants recorded in each file. Dewfoam Visayas/Mindanao averages based on fewer listed Open lifters vs SBD/Luzon Classic.</em></p>
+
+             <h4>Junior vs. Open Raw Strength Pipeline (Avg. IPF - SBD Nationals 2025)</h4>
+             <div class="chart-container" style="max-width: 700px; margin: 20px auto;">
+                 <canvas id="juniorOpenComparisonChart"></canvas>
+             </div>
+             <p><em>Observation: Raw Junior performance, particularly for Men, is very competitive with Open averages in this dataset, indicating strong emerging talent.</em></p>
+             <!-- *** END MODIFIED SECTION D *** -->
+        </section>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This dashboard is generated based solely on the provided CSV data. Calculations like averages are estimates influenced by the number and specific lifters recorded in each file. Potential inconsistencies between files may exist. Record claims depend on remarks within the source data.
+        </div>
+
+    </div><!-- /container -->
+
+    <script>
+        // Chart Data & Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Raw IPF Distribution
+            const rawIpfCtx = document.getElementById('rawIpfDistributionChart').getContext('2d');
+            new Chart(rawIpfCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['> 90', '80-89.9', '70-79.9', '60-69.9', '< 60'],
+                    datasets: [{
+                        label: 'Raw IPF Points Distribution (%)',
+                        data: [4, 12, 20, 28, 36],
+                        backgroundColor: ['#d9534f', '#f0ad4e', '#5cb85c', '#5bc0de', '#0275d8'],
+                        hoverOffset: 4
+                    }]
+                },
+                 options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Equipped IPF Distribution
+            const equippedIpfCtx = document.getElementById('equippedIpfDistributionChart').getContext('2d');
+            new Chart(equippedIpfCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['> 80', '70-79.9', '60-69.9', '50-59.9', '< 50'],
+                    datasets: [{
+                        label: 'Equipped IPF Points Distribution (%)',
+                        data: [3, 10, 25, 32, 30],
+                        backgroundColor: ['#d9534f', '#f0ad4e', '#5cb85c', '#5bc0de', '#0275d8'],
+                        hoverOffset: 4
+                    }]
+                },
+                 options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Male Lift Contribution
+            const maleLiftCtx = document.getElementById('maleLiftContributionChart').getContext('2d');
+            new Chart(maleLiftCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Squat', 'Bench Press', 'Deadlift'],
+                    datasets: [{
+                        label: 'Avg % of Total (Male Raw)',
+                        data: [36.5, 23.5, 40.0],
+                        backgroundColor: ['#0275d8', '#5cb85c', '#d9534f']
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, max: 50, title: { display: true, text: 'Percentage (%)'} } }
+                }
+            });
+
+            // Female Lift Contribution
+            const femaleLiftCtx = document.getElementById('femaleLiftContributionChart').getContext('2d');
+            new Chart(femaleLiftCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Squat', 'Bench Press', 'Deadlift'],
+                    datasets: [{
+                        label: 'Avg % of Total (Female Raw)',
+                        data: [36.0, 21.5, 42.5],
+                        backgroundColor: ['#0275d8', '#5cb85c', '#d9534f']
+                    }]
+                },
+                 options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, max: 50, title: { display: true, text: 'Percentage (%)'} } }
+                }
+            });
+
+             // Event Comparison Chart (MODIFIED to include Women)
+            const eventCompCtx = document.getElementById('eventComparisonChart').getContext('2d');
+            new Chart(eventCompCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Dewfoam Visayas', 'SBD Nationals 2025', 'Luzon Classic 2024', 'Dewfoam Mindanao'],
+                    datasets: [
+                        {
+                            label: 'Avg Men\'s Open Raw IPF',
+                            data: [85.5, 76.5, 74.0, 60.5], // Approx Men Averages
+                            backgroundColor: '#007bff', // Blue
+                        },
+                        {
+                            label: 'Avg Women\'s Open Raw IPF',
+                            data: [89.5, 76.0, 86.7, 69.5], // Approx Women Averages (Mindanao N=1)
+                            backgroundColor: '#dc3545', // Red
+                         }
+                    ]
+                },
+                 options: {
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false, // Set to false with fixed container height
+                    scales: { x: { beginAtZero: true, title: { display: true, text: 'Average IPF Points'} } },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Cross-Event Comparison (Avg. Open Raw IPF Points)'
+                        }
+                    }
+                }
+            });
+
+             // NEW Chart: Junior vs Open Raw Comparison
+            const jrOpenCompCtx = document.getElementById('juniorOpenComparisonChart').getContext('2d');
+            new Chart(jrOpenCompCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Men (SBD Nats)', 'Women (SBD Nats)'],
+                    datasets: [
+                        {
+                            label: 'Junior Raw Avg IPF',
+                            data: [79.0, 78.5], // From previous analysis
+                            backgroundColor: '#ffc107', // Yellow/Orange
+                        },
+                        {
+                            label: 'Open Raw Avg IPF',
+                            data: [76.5, 76.0], // From previous analysis
+                            backgroundColor: '#28a745', // Green
+                         }
+                    ]
+                },
+                 options: {
+                    responsive: true, maintainAspectRatio: false, // Set to false with fixed container height
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Average IPF Points'} } },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Junior vs. Open Performance (Avg Raw IPF - SBD Nats 2025)'
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
